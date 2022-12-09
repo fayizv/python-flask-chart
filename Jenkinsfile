@@ -97,7 +97,6 @@ pipeline{
                 sh 'echo version : 0.${BUILD_NUMBER}.0 >> flaskchart/Chart.yaml'
                 sh 'helm package flaskchart'
                 sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 707032823801.dkr.ecr.us-east-1.amazonaws.com'
-                sh 'export HELM_EXPERIMENTAL_OCI=1'
                 sh 'helm push flaskchart-0.${BUILD_NUMBER}.0.tgz oci://707032823801.dkr.ecr.us-east-1.amazonaws.com/'
                 sh 'rm -rf flaskchart-*'
                 }
