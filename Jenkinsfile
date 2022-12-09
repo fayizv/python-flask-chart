@@ -4,7 +4,7 @@ pipeline{
     stages {
         stage("Checkout") {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/fayizv/pyton-flask-chart.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/fayizv/python-flask-chart.git']]])
             }
         }  
         
