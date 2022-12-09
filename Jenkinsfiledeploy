@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+    parameters {
+        string(name : 'buildnum',defaultValue: '', description: 'production')
+    }
+    
+    stages {
+        stage("Pull from ECR") {
+            steps {
+                sh 'rm -rf flaskchart'
+                sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 707032823801.dkr.ecr.us-east-1.amazonaws.com'
+                sh "helm pull oci://707032823801.dkr.ecr.us-east-1.amazonaws.com/flaskchart --version 0.${params.buildnum}.0 --untar"
+            }
+        }
+        stage("Deploy to Minikube") {
+            steps {
+                sh 'helm install flaskchart flaskchart'
+            }
+        }
+    }
+}
