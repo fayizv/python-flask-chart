@@ -51,24 +51,6 @@ pipeline{
             }
         }  
         
-//         stage('Romove image') {
-//             steps {
-//                 script {
-//                     sh 'docker rmi -f fayizv/flask:1.1.1'
-//                 }
-//             }
-//         }
-
-        
-        stage('logout docker') {
-            steps {
-                script {
-                    sh 'docker logout'
-                }
-            }
-        }
-        
-        
         stage('AWS ECR login') {
             steps {
                 script {
