@@ -55,7 +55,7 @@ pipeline{
             steps {
                 script {
                    
-                        sh 'aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/z1n7h1z8'
+                        sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 707032823801.dkr.ecr.us-east-1.amazonaws.com'
    
                   
                     
@@ -68,8 +68,10 @@ pipeline{
         stage('AWS ECR push') {
             steps {
                 script {
-                    sh 'docker tag fayizv/flask:latest public.ecr.aws/z1n7h1z8/flask:${BUILD_NUMBER}'
-                    sh 'docker push public.ecr.aws/z1n7h1z8/flask:${BUILD_NUMBER}'
+                    sh 'docker tag fayizv/flask:latest 707032823801.dkr.ecr.us-east-1.amazonaws.com/flask-deploy:${BUILD_NUMBER}'
+//                     sh 'docker tag fayizv/flask:latest public.ecr.aws/z1n7h1z8/flask:${BUILD_NUMBER}'
+//                     sh 'docker push public.ecr.aws/z1n7h1z8/flask:${BUILD_NUMBER}'
+                    sh 'docker push 707032823801.dkr.ecr.us-east-1.amazonaws.com/flask-deploy:${BUILD_NUMBER}'
 
                 }
             }
