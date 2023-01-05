@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: helm-flask
+  name: helm-flask
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: helm-flask
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: helm-flask
+    spec:
+      containers:
+      - image: {{ .Values.image }}
+        name: helm-flask
+        ports:
+        - containerPort: 9000
+          name: "http"
+        - containerPort: 5005
+          name: "debug"
+        resources: {}
+status: {}
