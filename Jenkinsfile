@@ -68,9 +68,7 @@ pipeline{
         stage('AWS ECR push') {
             steps {
                 script {
-                    sh 'docker tag fayizv/flask:latest 707032823801.dkr.ecr.us-east-1.amazonaws.com/flask-deploy:${BUILD_NUMBER}'
-//                     sh 'docker tag fayizv/flask:latest public.ecr.aws/z1n7h1z8/flask:${BUILD_NUMBER}'
-//                     sh 'docker push public.ecr.aws/z1n7h1z8/flask:${BUILD_NUMBER}'
+                    sh 'docker tag fayizv/flask:latest 707032823801.dkr.ecr.us-east-1.amazonaws.com/flask-deploy:${BUILD_NUMBER}' 
                     sh 'docker push 707032823801.dkr.ecr.us-east-1.amazonaws.com/flask-deploy:${BUILD_NUMBER}'
 
                 }
@@ -79,9 +77,11 @@ pipeline{
         stage('Helm Push to ECR') {
             steps {
                 sh 'echo version : 0.${BUILD_NUMBER}.0 >> flaskchart/Chart.yaml'
-                sh 'helm package flaskchart'
+//                 sh 'helm package flaskchart'
+                sh 'tar cvzf flaskchart.${BUILD_NUMBER}.tgz flaskchart '
                 sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 707032823801.dkr.ecr.us-east-1.amazonaws.com'
-                sh 'helm push flaskchart-0.${BUILD_NUMBER}.0.tgz oci://707032823801.dkr.ecr.us-east-1.amazonaws.com/'
+                sh 'helm push flaskchart.${BUILD_NUMBER}.tgz oci://707032823801.dkr.ecr.us-east-1.amazonaws.com'
+//                 sh 'helm push nginx-cluster.${BUILD_NUMBER}.tgz oci://976846671615.dkr.ecr.us-east-1.amazonaws.com'
                 sh 'rm -rf flaskchart-*'
                 }
         }
