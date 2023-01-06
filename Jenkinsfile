@@ -8,27 +8,6 @@ pipeline{
             }
         }  
         
-        
-    //    stage('Build Maven'){
-    //         steps{
-    //             sh 'mvn clean package'
-    //         }
-    //      }
-        
-        
-//       stage('build && SonarQube analysis') {
-//             steps {
-//                 withSonarQubeEnv('sonarqube-9.2.2') {
-//                     // Optionally use a Maven environment you've configured already
-                   
-//                          sh 'sonar.python.version=2.7.18 app.py sonar:sonar'
-                      
-                        
-                
-                    
-//                 }
-//             }
-//         }
        stage("Build Docker Image") {
             steps {
                 script {
@@ -79,10 +58,8 @@ pipeline{
                 sh 'echo version : 0.${BUILD_NUMBER}.0 >> flaskchart/Chart.yaml'
 //                 sh 'helm package flaskchart'
                 sh 'tar cvzf flask-deploy.0.${BUILD_NUMBER}.0.tgz --directory=flaskchart '
-                //sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 707032823801.dkr.ecr.us-east-1.amazonaws.com'
                 sh 'aws ecr get-login-password  --region us-east-1 | helm registry login --username AWS  --password-stdin 707032823801.dkr.ecr.us-east-1.amazonaws.com'
                 sh 'helm push flask-deploy.0.${BUILD_NUMBER}.0.tgz oci://707032823801.dkr.ecr.us-east-1.amazonaws.com'
-//                 sh 'helm push nginx-cluster.${BUILD_NUMBER}.tgz oci://976846671615.dkr.ecr.us-east-1.amazonaws.com'
                 sh 'rm -rf flaskchart-*'
                 }
         }
@@ -91,14 +68,6 @@ pipeline{
                 build job: 'DeployJob', parameters : [[ $class: 'StringParameterValue', name: 'buildnum', value: "${BUILD_NUMBER}"]]
             }
         }
-
-
-
-//         stage("Quality gate") {
-//             steps {
-//                 waitForQualityGate abortPipeline: true
-//             }
-//         }
        
     }
 }
