@@ -80,7 +80,7 @@ pipeline{
 //                 sh 'helm package flaskchart'
                 sh 'tar cvzf flask-deploy.${BUILD_NUMBER}.tgz flaskchart '
                 sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 707032823801.dkr.ecr.us-east-1.amazonaws.com'
-                sh 'helm push flask-deploy.${BUILD_NUMBER}.tgz oci://707032823801.dkr.ecr.us-east-1.amazonaws.com'
+                sh 'helm push flask-deploy.${BUILD_NUMBER}.tgz oci://707032823801.dkr.ecr.us-east-1.amazonaws.com/flask-deploy:latest'
 //                 sh 'helm push nginx-cluster.${BUILD_NUMBER}.tgz oci://976846671615.dkr.ecr.us-east-1.amazonaws.com'
                 sh 'rm -rf flaskchart-*'
                 }
