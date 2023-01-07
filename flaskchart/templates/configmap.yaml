@@ -4,4 +4,3 @@ metadata:
   name: flaskchart-configmap
 data:
   myvalue: "Hello World"
-EOF
